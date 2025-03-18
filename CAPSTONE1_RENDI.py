@@ -43,7 +43,7 @@ data_user = [{'ID':1,'user':'Admin','password':'Admin123'}]
 
 # Setelah data ditampilkan diatas, langkah selanjutnya adalah membuat fitur dengan cara membuat dictionary sebagai berikut:
 
-# BELUM ISI
+# Membuat dictionary sub menu dengan isi sebagai berikut
 def submenu_show_data(data_pasien):
     print('--------------------------------------------')
     while True:
@@ -52,12 +52,9 @@ MENU DATABASE PASIEN
 
 Silahkan pilih menu dibawah ini: 
 1. Show all data pasien
-2. Filter data pasien
-3. Sorting data pasien
-4. Pencarian data pasien
-5. Statistik Pasien
-6. Show user dashboard
-7. Kembali ke menu utama
+2. Pencarian data pasien
+3. Show user dashboard
+4. Kembali ke menu utama
 --------------------------------------------\n''')
         user_input = input('Pilih menu angka diatas: ')
         if not user_input.isdigit():
@@ -67,16 +64,16 @@ Silahkan pilih menu dibawah ini:
         user_input = int(user_input)    
         if user_input == 1:
             show_data(data_pasien)
-        elif user_input == 5:
+        elif user_input == 2:
             search_data_pasien(data_pasien)
-        elif user_input == 6:
+        elif user_input == 3:
             shows_data(data_user)
-        elif user_input == 7:
+        elif user_input == 4:
             return
         else:
             print('Menu tidak tersedia! coba lagi')
 
-#   1. Dictionary pertama yaitu menampilkan seluruh data pasien dengan cara:
+#   1. Dictionary function pertama yaitu menampilkan seluruh data pasien dengan cara:
 #       a. membuat keyword show data dengan object key data pasien
 #       b. menampilkan header
 #       c. menampilkan data dengan looping sejumlah data pasien  
@@ -88,15 +85,18 @@ def show_data(data_pasien):
         return
     # Jika ada, command lanjut
     # Print header tabel
-    print('ID      | Nama Pasien           | Kamar Pasien  | Diagnosa                      | No Telp Keluarga      | Nama Keluarga')
-    print('------- | --------------------- | ------------- | ----------------------------- | --------------------- | --------------------')
+    print('ID      | Nama Pasien           | Kamar Pasien  | Diagnosa                       | No Telp Keluarga      | Nama Keluarga')
+    print('------- | --------------------- | ------------- | ------------------------------ | --------------------- | --------------------')
+    
     # print data dengan looping sebanyak data yang ada, dengan range dari Len data pasien
-    for i in range(len(data_pasien)):
-        riwayat = data_pasien[i]['diagnosa']  
-        if 'tambah_diagnosa' in data_pasien[i]:  
-            riwayat += ', ' + ', '.join(data_pasien[i]['tambah_diagnosa'])  
-        print(f'{data_pasien[i]['ID']:<7} | {data_pasien[i]['nama pasien']:<21} | {data_pasien[i]['kamar pasien']:<13} | {riwayat:<30} | {data_pasien[i]['no telp keluarga']:<21} | {data_pasien[i]['nama keluarga']}')
-    print('----------------------------------------------------------------------------------------------------------------------\n') # Print line kosong untuk memberi space baru
+    for pasien in data_pasien: 
+        # Ambil data diagnosa dari pasien
+        riwayat_diagnosa = pasien.get("diagnosa", "")
+        if isinstance(riwayat_diagnosa, list):
+            riwayat_diagnosa = ", ".join(riwayat_diagnosa)
+
+        print(f'{pasien['ID']:<7} | {pasien['nama pasien']:<21} | {pasien['kamar pasien']:<13} | {riwayat_diagnosa:<30} | {pasien['no telp keluarga']:<21} | {pasien['nama keluarga']}')
+    print('-------------------------------------------------------------------------------------------------------------------------------\n') # Print line kosong untuk memberi space baru
 def shows_data(data_user):
     # Cek apakah ada data pasien di list
     if not data_user:
@@ -111,7 +111,7 @@ def shows_data(data_user):
         print(f'{data_user[i]['ID']:<7} | {data_user[i]['user']:<21} | {data_user[i]['password']:<13}')
     print('----------------------------------------------- \n') # Print line kosong untuk memberi space baru
 
-#   5. Dictionary ke-lima yaitu function untuk pencarian data pasien dengan cara:
+#   2. Dictionary function kedua yaitu function untuk pencarian data pasien dengan cara:
 #       a. Buat list kosong untuk menyimpan hasil pencarian
 #       d. sistem mencari data yang cocok 
 
@@ -131,7 +131,7 @@ def find_data(data_pasien, value):
                 break 
     return hasil_pencarian if hasil_pencarian else None
 
-#   6. Dictionary ke-enam yaitu pencarian data pasien dengan cara:
+#   3. Dictionary function ke-tiga yaitu pencarian data pasien dengan cara:
 #       a. user meng-input data apapun yang ingin dicari
 #       d. setelah menemukan data nya, sistem akan menampilkan table data pasien yang dimaksud
 
@@ -165,7 +165,7 @@ def search_data_pasien(data_pasien):
 
 
 
-# BELUM ISI DEFINISI
+# Membuat dictionary sub menu dengan isi sebagai berikut
 
 def submenu_add_data(data_pasien):
     while True:
@@ -198,7 +198,7 @@ Silahkan pilih menu dibawah ini:
         else:
             print('Menu tidak tersedia! coba lagi')
 
-#   2. Dictionary kedua yaitu menambah data pasien dengan cara:
+#   4. Dictionary function keempat yaitu menambah data pasien dengan cara:
 #       a. membuat keyword add data pasien
 #       b. membuat kolom input data apa saja yang akan ditambah
 #       c. menampilkan keterangan data sukses diinput
@@ -290,6 +290,11 @@ def add_data(data_pasien):
         else:
             print('Perintah salah! Silahkan pilih antara (Y/N)')
 
+#   5. Dictionary function kelima yaitu menambah data pasien secara bulk dengan cara:
+#       a. membuat berapa banyak pasien yang ditambah
+#       b. isi kolom pasien
+#       c. menampilkan keterangan data sukses diinput
+
 def bulk_add_data(data_pasien):
     while True:
         try:
@@ -377,42 +382,61 @@ def bulk_add_data(data_pasien):
         except ValueError:
             print('Input harus berupa angka! Coba lagi')
 
+#   6. Dictionary function keenam yaitu menambah diagnosa dengan cara:
+#       a. memilih ID
+#       b. isi kolom diagnosa
+#       c. menampilkan keterangan data sukses diinput
+
 def tambah_diagnosa(data_pasien):
     show_data(data_pasien)  # Menampilkan data pasien agar user tahu ID yang benar
 
-    input_id = input('Masukkan ID pasien untuk menambahkan tambahan diagnosa: ')
-    if not input_id.isdigit():
-        print('ID harus berupa angka! Coba lagi.')
-        return
+    while True:
+        try:
+            input_id = input('Masukkan ID pasien untuk menambahkan tambahan diagnosa: ')
+            if not input_id.isdigit():
+                print('ID harus berupa angka! Coba lagi.')
+                continue
 
-    input_id = int(input_id)
+            input_id = int(input_id)
 
-    # Mencari pasien berdasarkan ID
-    pasien_terpilih = None
-    for pasien in data_pasien:
-        if pasien['ID'] == input_id:
-            pasien_terpilih = pasien
-            break
-    if not pasien_terpilih:
-        print('Pasien dengan ID tersebut tidak ditemukan!')
-        return
-    print('Pasien ditemukan:')
-    show_data([pasien_terpilih])
-    
-    diagnosa_baru = input('Masukkan tambahan diagnosa baru: ')
+            # Mencari pasien berdasarkan ID
+            pasien_terpilih = None
+            for pasien in data_pasien:
+                if pasien['ID'] == input_id:
+                    pasien_terpilih = pasien
+                    break
+            if not pasien_terpilih:
+                print('Pasien dengan ID tersebut tidak ditemukan!')
+                continue
+            print('Pasien ditemukan:')
+            show_data([pasien_terpilih])
+        
+            diagnosa_baru = input('Masukkan tambahan diagnosa baru: ')
 
-    if not diagnosa_baru:
-        print('Isi diagnosa tidak boleh kosong!')
-        return
+            if not diagnosa_baru:
+                print('Isi diagnosa tidak boleh kosong!')
+                return
 
-    # Menambahkan ke daftar tambahan diagnosa pasien
-    if 'tambahan diagnosa' not in pasien_terpilih:
-        pasien_terpilih['tambah_diagnosa'] = []
+        # Pastikan diagnosa tersimpan sebagai list
+            if isinstance(pasien["diagnosa"], str):
+                pasien["diagnosa"] = [pasien["diagnosa"]]  # Ubah ke list jika awalnya string
+                konfirmasi = input(f"\nApakah Anda yakin ingin menambahkan diagnosa '{diagnosa_baru}' untuk {pasien['nama pasien']}? (Y/N): ").strip().lower()
 
-    pasien_terpilih['tambah_diagnosa'].append(diagnosa_baru)
-    print(f'tambahan diagnosa {diagnosa_baru} berhasil ditambahkan untuk pasien {pasien_terpilih['nama pasien']}.\n')
-    print('Data pasien setelah update:')
-    show_data([pasien_terpilih])  # Tampilkan data pasien yang telah diperbarui
+                if konfirmasi == "y":
+                    pasien["diagnosa"].append(diagnosa_baru)
+                    print(f"\nTambahan diagnosa '{diagnosa_baru}' berhasil ditambahkan untuk pasien {pasien['nama pasien']}.\n")
+                else:
+                    print("\nPenambahan diagnosa dibatalkan.\n")
+                    return
+
+                print("\nData pasien setelah update:")
+                show_data(data_pasien)
+                break
+        except ValueError:
+            print("\nInput tidak valid! Harus berupa angka.\n")
+#   7. Dictionary function ketujuh yaitu menambah user dengan cara:
+#       a. ketik data diri user dan password
+#       b. menampilkan keterangan data sukses diinput
 
 def adds_data(data_user):
     print('\n-- Tambah User Dashboard --')
@@ -453,7 +477,7 @@ def adds_data(data_user):
 
 
 
-# BELUM ISI DEFINISI
+# Membuat dictionary sub menu dengan isi sebagai berikut
 
 def submenu_delete_data(data_pasien):
     while True:
@@ -462,9 +486,7 @@ MENU DELETE PASIEN
 
 Silahkan pilih menu dibawah ini: 
 1. Hapus data pasien
-2. Hapus bulk data pasien
-3. Hapus tambahan diagnosa pasien
-4. Kembali ke menu utama
+2. Kembali ke menu utama
 --------------------------------------------\n''')
         user_input = input('Pilih menu angka diatas: ')
         if not user_input.isdigit():
@@ -474,12 +496,12 @@ Silahkan pilih menu dibawah ini:
         user_input = int(user_input)    
         if user_input == 1:
             delete_data(data_pasien)
-        elif user_input == 4:
+        elif user_input == 2:
             return
         else:
             print('Menu tidak tersedia! coba lagi')
 
-#   3. Dictionary ketiga yaitu menghapus data pasien dengan cara:
+#   8. Dictionary funtion ke-delapan yaitu menghapus data pasien dengan cara:
 #       a. membuat input ID mana yang akan dihapus
 #       b. Sistem akan otomatis menghapus satu baris ID tersebut
 #       c. menampilkan keterangan data sukses diinput            
@@ -532,32 +554,31 @@ def delete_data(data_pasien):
         except ValueError:
             print('Input harus berupa angka! Coba lagi.')
 
-# BELUM ISI
+# Membuat dictionary sub menu dengan isi sebagai berikut
 def submenu_update_data(data_pasien):
-    print('''--------------------------------------------
+    while True:
+            print('''--------------------------------------------
 MENU UPDATE PASIEN
 
 Silahkan pilih menu dibawah ini: 
 1. Update data spesifik pasien
-2. Update seluruh data pasien
-3. Kembali ke menu utama
+2. Kembali ke menu utama
 --------------------------------------------\n''')
-    while True:
-        user_input = input('Pilih menu angka diatas: ')
-        if not user_input.isdigit():
-            print('Perintah hanya berupa angka')
-            continue
+            user_input = input('Pilih menu angka diatas: ')
+            if not user_input.isdigit():
+                print('Perintah hanya berupa angka')
+                continue
 
-        user_input = int(user_input)    
-        if user_input == 1:
-            update_data(data_pasien)
-        elif user_input == 3:
-            return
-        else:
-            print('Menu tidak tersedia! coba lagi')
+            user_input = int(user_input)    
+            if user_input == 1:
+                update_data(data_pasien)
+            elif user_input == 2:
+                return
+            else:
+                print('Menu tidak tersedia! coba lagi')
 
 
-#   4. Dictionary keempat yaitu update data pasien dengan cara:
+#   9. Dictionary function ke-sembilan yaitu update data pasien dengan cara:
 #       a. user meng-input ID mana yang akan dirubah
 #       b. setelah menemukan ID tersebut, user meng-input kolom mana yang akan dirubah
 #       c. khusus no kamar tidak bisa duplikat, hanya bisa ditempati 1 pasien untuk 1 kamar
@@ -571,28 +592,32 @@ def update_data(data_pasien):
     # user melakukan input no ID pasien dengan melakukan looping apabila terjadi error input
     while True:
         try:
-            input_ID_pasien = int(input('Ketik nomor index pasien yang akan diupdate: '))
-            if input_ID_pasien < 0 or input_ID_pasien >= len(data_pasien):
-                print('Index diluar list. Coba lagi.')
+            input_ID_pasien = input('Ketik nomor ID pasien yang akan diupdate: ')
+            if not input_ID_pasien.isdigit():
+                print('Perintah hanya berupa angka')
                 continue
+    # Proses cek apakah ada data ID input di database
+            input_ID_pasien = int(input_ID_pasien)
+            pasien_list = [pasien for pasien in data_pasien if pasien['ID'] == input_ID_pasien]
+            pasien_update = pasien_list[0] if pasien_list else None
+            
+            if pasien_update is None:
+                print("Data tidak ditemukan, silahkan coba lagi.")
+            print('\nData pasien yang akan diupdate:')
+            show_data([pasien_update])
             break
+        
         except ValueError:
-            print('Input harus berupa angka! Coba lagi.')
+            print('Input tidak valid! Coba lagi.')
 
-    # sistem membuat list kosong, data akan masuk di list tersebut sesuai dengan ID yang diinput
-    data_filter = []
-    data_filter.append(data_pasien[input_ID_pasien])
-    total_data_filter = len(data_filter)
-
-    # Sistem akan menampilkan list pasien yang dipilih
-    show_data(data_filter)
+    kolom_valid = ['nama pasien', 'kamar pasien', 'diagnosa', 'no telp keluarga', 'nama keluarga']
 
     # user melakukan input kolom pasien ingin di-edit dengan melakukan looping apabila terjadi error input
     # Apabila sesuai dengan kolom yang ada, maka akan lanjut untuk input value
     # Apabila tidak sesuai dengan kolom yang ada, maka akan meminta kembali input kolom yang ingin di-edit
     while True:
-        input_nama_kolom = input('Masukan nama kolom yang ingin di-edit ')
-        if input_nama_kolom not in ['nama pasien', 'kamar pasien', 'diagnosa', 'no telp keluarga', 'nama keluarga']:
+        input_nama_kolom = input('Masukkan nama kolom yang ingin di-edit: ')
+        if input_nama_kolom not in kolom_valid:
             print('Kolom tidak ada silahkan ulangi\n')
         else:
             break
@@ -611,28 +636,78 @@ def update_data(data_pasien):
                     break
             except ValueError:
                 print('Input harus berupa angka! Coba lagi.')
+
     elif input_nama_kolom.lower() == 'diagnosa':
-        ubah_value = input('Silahkan ketik diagnosa baru pasien: ')        
+        daftar_diagnosa = pasien_update.get("diagnosa", "")
+
+        # Jika diagnosa masih dalam bentuk string, ubah menjadi list
+        if isinstance(daftar_diagnosa, str):
+            daftar_diagnosa = [diagnosa.strip() for diagnosa in daftar_diagnosa.split(",") if diagnosa.strip()]
+
+        # Tambahkan diagnosa tambahan jika ada
+        tambahan_diagnosa = pasien_update.get("tambah_diagnosa", [])
+        if tambahan_diagnosa:
+            daftar_diagnosa.extend(tambahan_diagnosa)
+
+        # Tampilkan daftar diagnosa terbaru
+        print("\nDiagnosa saat ini:")
+        for nomor, diagnosa in enumerate(daftar_diagnosa, start=1):
+            print(f"{nomor}. {diagnosa}")
+
+        # Pilih diagnosa yang ingin diubah
+        while True:
+            try:
+                nomor_ganti = int(input("\nMasukkan nomor diagnosa yang ingin diganti: "))
+                if 1 <= nomor_ganti <= len(daftar_diagnosa):
+                    break
+                else:
+                    print("Nomor tidak valid! Pilih sesuai daftar.")
+            except ValueError:
+                print("Input harus berupa angka!")
+
+        # Input diagnosa baru
+        diagnosa_baru = input("Masukkan diagnosa baru pasien: ")
+
+        # Konfirmasi perubahan
+        konfirmasi = input(f'\nAnda akan mengganti "{daftar_diagnosa[nomor_ganti - 1]}" dengan "{diagnosa_baru}". Confirm? (Y/N): ')
+        if konfirmasi.lower() == 'y':
+            daftar_diagnosa[nomor_ganti - 1] = diagnosa_baru  # Update diagnosa terpilih
+            pasien_update["diagnosa"] = daftar_diagnosa  # Simpan ke data pasien
+            print("\n SUKSES UPDATE DATA!\n")
+            # Tampilkan data yang telah diperbarui
+            show_data(data_pasien)
+            return
+        else:
+            print("\n Perubahan dibatalkan.")     
+       
     elif input_nama_kolom.lower() == 'no telp keluarga':
         while True:
             ubah_value = input('Masukan no telpon baru keluarga (dimulai dari 08): ')
-            if ubah_value.isdigit():
+            if ubah_value.isdigit() and ubah_value.startswith('08'):
                 if any(pasien['no telp keluarga'] == ubah_value for pasien in data_pasien):
-                    print('no telp keluarga sudah terdaftar, silahkan input no telp lain.')
-                    if ubah_value('08'):
-                        break
+                    print('Nomor telepon keluarga sudah terdaftar, silahkan input nomor lain.')
                 else:
-                    print('Angka harus dimulai dari 08, Coba lagi.')
+                    break
             else:
-                print('Input harus berupa angka! Coba lagi.')
+                print('Angka harus dimulai dari 08, Coba lagi.')
     elif input_nama_kolom.lower() == 'nama keluarga':
         ubah_value = input('Silahkan ketik nama baru keluarga: ')
-
-    data_pasien[input_ID_pasien][input_nama_kolom] = ubah_value
-    print('SUKSES UPDATE DATA!')
-    show_data(data_pasien)
-
-#   7. Dictionary ke-tujuh yaitu menu login dengan flow seperti berikut:
+    
+    print(f'\nanda akan merubah {pasien_update[input_nama_kolom]} menjadi {ubah_value}')
+    while True:
+        konfirmasi = input('Apakah anda yakin ingin mengubahnya?(Y/N): ')
+        if konfirmasi.lower() == 'y':
+            pasien_update[input_nama_kolom] = ubah_value
+            print('\nSUKSES UPDATE DATA!\n')
+            show_data(data_pasien)
+            return
+        elif konfirmasi.lower() == 'n':    
+            print('Update dibatalkan')
+            return
+        else:
+            print('\nPerintah salah! Coba lagi')
+    
+#       Dictionary menu login dengan flow seperti berikut:
 #       a. user meng-input user dan password yang sesuai
 #       d. menu login akan lanjutkan ke menu utama
 
@@ -655,6 +730,8 @@ def menu_login(data_pasien):
             break
         else:
             print('User atau Password salah! Silahkan coba lagi.\n')
+
+# Membuat dictionary menu utama dengan isi sebagai berikut
 
 def menu_utama(data_pasien):  
     while True:
@@ -694,7 +771,9 @@ Silahkan pilih menu dibawah ini:
 
 #----------------PROMPTING WORKFLOW-------------------------#
 
-menu_utama(data_pasien)
+menu_login(data_pasien)
+
+# Catatan user: Admin Password: Admin123
 
 
 
